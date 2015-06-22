@@ -68,10 +68,10 @@
             <a class="item">
                 <i class="home icon"></i> home
             </a>
-            <a class="primary item" href="lab.php">
+            <a class="item" href="lab.php">
                 <i class="lab icon"></i> lab
             </a>
-            <a class="item" >
+            <a class="item" href="molds.php">
                 <i class="circle icon"></i> molds
             </a>
             <div class="right menu">
