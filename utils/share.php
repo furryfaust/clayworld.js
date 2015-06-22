@@ -1,6 +1,5 @@
 <?php
 
-
 session_start();
 
 $title = $_GET['title'];
@@ -27,7 +26,6 @@ if (strlen($title) > 10 && strlen($title) < 101) {
     curl_close($ch);
 
     if (isset(json_decode($response, true)['id'])) {
-
 	    $id = json_decode($response, true)['id'];
 	    $url = "https://api.github.com/gists/" . $id . "/commits";
 	    $ch = curl_init($url);
@@ -53,3 +51,6 @@ if (strlen($title) > 10 && strlen($title) < 101) {
 	}
 	
 }
+
+header("Location: http://furryfaust.com/clayworld/lab.php");
+die(); 

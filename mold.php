@@ -60,7 +60,7 @@
 			$_SESSION['gid'] = $result['gid'];
 		} else {
 			echo 'alert("You are not authorized to be here");';
-			header("Location: http://furryfaust.com/clayworld/play.php");
+			header("Location: http://furryfaust.com/clayworld/lab.php");
 			die();
 		}
 	} ?>

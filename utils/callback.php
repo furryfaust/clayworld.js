@@ -34,7 +34,8 @@ if (isset($_SESSION['state'])) {
 		$_SESSION['user'] = json_decode($response, true)['login'];
 		curl_close($ch);
 		
-		header("Location: http://furryfaust.com/clayworld/lab.php");
-		die(); 
 	}
 }
+
+header("Location: http://furryfaust.com/clayworld/lab.php");
+die(); 
