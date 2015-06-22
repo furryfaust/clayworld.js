@@ -43,14 +43,14 @@
 		    return $result;
 		    }
 		    $_SESSION['state'] = randStrGen(50);
-		    header("Location: https://github.com/login/oauth/authorize?client_id=-&scope=gist&state=" 
+		    header("Location: https://github.com/login/oauth/authorize?client_id=179234c27aaecd4eadc8&scope=gist&state=" 
 		        . $_SESSION['state']);
 		    die();
 		}
 	} else {
 		$id = $_GET['id'];
 
-		$PDO = new PDO('mysql:host=localhost;dbname=clayworld', 'root', '-');
+		$PDO = new PDO('mysql:host=localhost;dbname=clayworld', 'root', 'dbpass');
 		$sql = "select * from molds where user=:user and id=:id";
 		$query = $PDO->prepare($sql);
 		$query->bindParam(':id', $id);
@@ -64,6 +64,29 @@
 			die();
 		}
 	} ?>
+	<div class="ui secondary pointing menu">
+            <a class="item">
+                <i class="home icon"></i> home
+            </a>
+            <a class="primary item" href="lab.php">
+                <i class="lab icon"></i> lab
+            </a>
+            <a class="item" >
+                <i class="circle icon"></i> molds
+            </a>
+            <div class="right menu">
+                <a class="item" id="session">
+                    <i class="user icon"></i> 
+                    <?php
+                        if (isset($_SESSION['token'])) {
+                            echo 'log out';
+                        } else {
+                            echo 'sign in';
+                        }
+                    ?>
+                </a>
+            </div>
+        </div>
 	</head>
 	<body>
 		<div class="ui input" id="title">
@@ -90,7 +113,7 @@
 	        		var share = new XMLHttpRequest();
 	        		share.onreadystatechange = function() {
 	        			if (share.readyState == 4) {
-	        				alert(share.responseText);
+	        				console.log(share.responseText);
 	        			}
 	        		}
 	        		share.open("GET", "utils/share.php?title=" + document.getElementById("titleinput").value
@@ -108,6 +131,13 @@
 	        		update.send();
 	        	}
 	        }
+
+	        var session = document.getElementById("session");
+       		session.onclick = function() {
+            if (session.innerHTML.includes("log out")) {
+                window.location = "utils/logout.php";
+            }
+         }
     	</script>
 	</body>
 </html>

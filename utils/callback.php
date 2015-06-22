@@ -9,8 +9,8 @@ if (isset($_SESSION['state'])) {
 		$url = 'https://github.com/login/oauth/access_token/';
 		$ch = curl_init($url);
 		$fields = array(
-				"client_id" => "-",
-				"client_secret" => "-",
+				"client_id" => "179234c27aaecd4eadc8",
+				"client_secret" => "clientsecret",
 				"code" => $code
 			);
 		curl_setopt($ch, CURLOPT_POST, 1);
@@ -30,10 +30,11 @@ if (isset($_SESSION['state'])) {
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 		$response = curl_exec($ch);
 		
+		$_SESSION['uid'] = json_decode($response, true)['id'];
 		$_SESSION['user'] = json_decode($response, true)['login'];
 		curl_close($ch);
 		
-		header("Location: http://furryfaust.com/clayworld/mold.php");
+		header("Location: http://furryfaust.com/clayworld/lab.php");
 		die(); 
 	}
 }
