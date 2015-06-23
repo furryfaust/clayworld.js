@@ -55,27 +55,28 @@
 
 		<script>
 			<?php echo 'var query = "' . $_GET['query'] . '"' ?>;
-			if (query == "all") {
-				document.getElementById("all").className = "teal active item";
-			}
-			if (query == "recent") {
-				document.getElementById("recent").className = "teal active item";
-			}
-			if (query == "my") {
-				document.getElementById("my").className = "teal active item";
-			}
-
+			if (query == "all") document.getElementById("all").className = "teal active item"; 
+			if (query == "recent") document.getElementById("recent").className = "teal active item"; 
+			if (query == "my") document.getElementById("my").className = "teal active item"; 
+			
 			document.getElementById("all").onclick = function() {
 				window.location = "molds.php?query=all";
 			}
-
 			document.getElementById("recent").onclick = function() {
 				window.location = "molds.php?query=recent";
 			}
-
 			document.getElementById("my").onclick = function() {
 				window.location = "molds.php?query=my";
 			}
+
+			var session = document.getElementById("session");
+       		session.onclick = function() {
+            	if (session.innerHTML.includes("log out")) {
+            	    window.location = "utils/logout.php";
+            	} else {
+            		window.location = "utils/auth.php?link=" + encodeURIComponent(window.location);
+            	}
+        	}
 		</script>
 	</body>
 </html>
