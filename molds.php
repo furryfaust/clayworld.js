@@ -6,7 +6,7 @@
 
 		.ui.vertical.menu {
 			position: relative;
-			margin-left: 2%;
+			margin-left: 1%;
 		}
 
 		</style>
@@ -36,14 +36,14 @@
 	</head>
 	<body>
 		<div class="ui vertical menu">
-		  <a class="active teal item">
-		    All
+		  <a class="item" id="all">
+		    all molds
 		  </a>
-		  <a class="item">
-		    Verified
+		  <a class="item" id="recent">
+		    recent molds
 		  </a>
-		  <a class="item">
-		    Unverified
+		  <a class="item" id="my">
+		    my molds
 		  </a>
 		  <div class="item">
 		    <div class="ui transparent icon input">
@@ -52,5 +52,30 @@
 		    </div>
 		  </div>
 		</div>
+
+		<script>
+			<?php echo 'var query = "' . $_GET['query'] . '"' ?>;
+			if (query == "all") {
+				document.getElementById("all").className = "teal active item";
+			}
+			if (query == "recent") {
+				document.getElementById("recent").className = "teal active item";
+			}
+			if (query == "my") {
+				document.getElementById("my").className = "teal active item";
+			}
+
+			document.getElementById("all").onclick = function() {
+				window.location = "molds.php?query=all";
+			}
+
+			document.getElementById("recent").onclick = function() {
+				window.location = "molds.php?query=recent";
+			}
+
+			document.getElementById("my").onclick = function() {
+				window.location = "molds.php?query=my";
+			}
+		</script>
 	</body>
 </html>
