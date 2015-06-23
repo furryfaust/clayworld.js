@@ -41,7 +41,7 @@
             <a class="item" href="lab.php">
                 <i class="lab icon"></i> lab
             </a>
-            <a class="item" href="molds.php">
+            <a class="item" href="molds.php?query=all">
                 <i class="circle icon"></i> molds
             </a>
             <div class="right menu">
@@ -103,7 +103,6 @@
                 <br>
             </div>
         </div>
-        
     </body>
     <script src="js/script.js"> </script>
     <script src="js/ace.min.js" type="text/javascript" charset="utf-8"></script>
@@ -115,7 +114,6 @@
         editor.on("blur", function() {
             var save = new XMLHttpRequest();
             save.open("post", "utils/track.php?code=" + encodeURIComponent(editor.getSession().getValue()), false);
-            save.setRequestHeader("Content-type", "text/js");
             save.send();
         });
         var session = document.getElementById("session");
@@ -123,7 +121,7 @@
             if (session.innerHTML.includes("log out")) {
                 window.location = "utils/logout.php";
             } else {
-                window.location = "mold.php";
+                window.location = "utils/auth.php?link=" + encodeURIComponent(window.location);
             }
          }
     </script>

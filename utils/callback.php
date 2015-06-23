@@ -21,8 +21,6 @@ if (isset($_SESSION['state'])) {
 		$_SESSION['token'] = $data['access_token'];
 		curl_close($ch);
 		unset($_SESSION['state']);
-		unset($_SESSION['code']);
-
 		$url = "https://api.github.com/user?access_token=" . $_SESSION['token'];
 		$ch = curl_init($url);
 		curl_setopt($ch, CURLOPT_POST, 0);
@@ -37,5 +35,11 @@ if (isset($_SESSION['state'])) {
 	}
 }
 
-header("Location: http://furryfaust.com/clayworld/lab.php");
-die(); 
+if (isset($_SESSION['history'])) {
+	header("Location: " . $_SESSION['history']);
+	unset($_SESSION['history']);
+	die();
+} else {
+	header("Location: http://furryfaust.com/clayworld/lab.php");
+	die(); 
+}

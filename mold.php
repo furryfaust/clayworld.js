@@ -23,31 +23,22 @@
 		}
 	</style>
 	<script>
+		var isLoggedIn = <?php
+		session_start();
+		if (isset($_SESSION['token'])) {
+			echo 'true';
+		} else {
+			echo 'false'; 
+		}?>;
+		console.log(isLoggedIn);
 		var isNew = <?php if (isset($_GET['id'])) {
 			echo 'false';
 		} else {
 			echo 'true'; 
 		}?>;
 	</script>
-	<?php session_start();
-	if (!isset($_GET['id'])) {
-		if (!isset($_SESSION['token'])) {
-		    function randStrGen($len) {
-		        $result = "";
-		        $chars = "abcdefghijklmnopqrstuvwxyz0123456789";
-		        $charArray = str_split($chars);
-		        for($i = 0; $i < $len; $i++){
-		            $randItem = array_rand($charArray);
-		            $result .= "".$charArray[$randItem];
-		        }
-		    return $result;
-		    }
-		    $_SESSION['state'] = randStrGen(50);
-		    header("Location: https://github.com/login/oauth/authorize?client_id=179234c27aaecd4eadc8&scope=gist&state=" 
-		        . $_SESSION['state']);
-		    die();
-		}
-	} else {
+	<?php
+	if (isset($_GET['id'])) {
 		$id = $_GET['id'];
 
 		$PDO = new PDO('mysql:host=localhost;dbname=clayworld', 'root', 'dbpass');
@@ -71,7 +62,7 @@
             <a class="item" href="lab.php">
                 <i class="lab icon"></i> lab
             </a>
-            <a class="item" href="molds.php">
+            <a class="item" href="molds.php?query=all">
                 <i class="circle icon"></i> molds
             </a>
             <div class="right menu">
@@ -109,26 +100,30 @@
 	        editor.setReadOnly(true);
 
 	        document.getElementById("action").onclick = function() {
-	        	if (isNew) {
-	        		var share = new XMLHttpRequest();
-	        		share.onreadystatechange = function() {
-	        			if (share.readyState == 4) {
-	        				console.log(share.responseText);
-	        			}
-	        		}
-	        		share.open("GET", "utils/share.php?title=" + document.getElementById("titleinput").value
-	        			+ "&code=" + encodeURIComponent(editor.getSession().getValue()), true);
-	        		share.send();
+	        	if (isLoggedIn) {
+		        	if (isNew) {
+		        		var share = new XMLHttpRequest();
+		        		share.onreadystatechange = function() {
+		        			if (share.readyState == 4) {
+		        				
+		        			}
+		        		}
+		        		share.open("GET", "utils/share.php?title=" + document.getElementById("titleinput").value
+		        			+ "&code=" + encodeURIComponent(editor.getSession().getValue()), true);
+		        		share.send();
+		        	} else {
+		        		var update = new XMLHttpRequest();
+
+		        		update.onreadystatechange = function() {
+		        			if (share.readyState == 4) {
+
+		        			}
+		        		}
+		        		update.open("GET", "utils/update.php?title", false);
+		        		update.send();
+		        	}
 	        	} else {
-	        		var update = new XMLHttpRequest();
-
-	        		update.onreadystatechange = function() {
-	        			if (share.readyState == 4) {
-
-	        			}
-	        		}
-	        		update.open("GET", "utils/udate.php?title", false);
-	        		update.send();
+	        		alert("You are not logged in.");
 	        	}
 	        }
 
@@ -136,6 +131,8 @@
        		session.onclick = function() {
             if (session.innerHTML.includes("log out")) {
                 window.location = "utils/logout.php";
+            } else {
+            	window.location = "utils/auth.php?link=" + encodeURIComponent(window.location);
             }
          }
     	</script>

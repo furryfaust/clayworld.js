@@ -1,7 +1,7 @@
 var processor;
 var control = document.getElementById("control");
 control.onclick = function() {
-	if (control.innerHTML == " run ") {
+	if (control.innerHTML.includes("run")) {
 		var canvas = document.getElementById("world");
 		var ctx = canvas.getContext("2d");
 		var player = new Player(0);
@@ -23,9 +23,9 @@ control.onclick = function() {
 			world.update();
 			onUpdate(world);
 		} , 1);
-		control.innerHTML = " stop ";
-	} else if (control.innerHTML == " stop ") {
-		control.innerHTML = " run ";
+		control.innerHTML = "<i class='stop icon'></i>stop";
+	} else if (control.innerHTML.includes("stop")) {
+		control.innerHTML = "<i class='play icon'></i>run";
 		clearInterval(processor);
 	}
 }
