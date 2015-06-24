@@ -1,7 +1,11 @@
 <html>
 	<head>
 		<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.12.3/semantic.min.css" />
-		<?php session_start(); ?>
+		<?php session_start();
+		ini_set('display_startup_errors',1);
+		ini_set('display_errors',1);
+		error_reporting(-1);
+		?>
 		<style>
 
 		.ui.vertical.menu {
@@ -52,6 +56,22 @@
 		</div>
 	</head>
 	<body>
+		<div class="ui five column grid">
+		<script>
+		<?php
+			$page = intval($_GET['page']) * 20;
+			$conn = new PDO('mysql:host=localhost;dbname=clayworld', 'root', 'dbpass');
+			$sql = "select * from molds order by id desc limit 20 offset :page";
+			$query = $conn->prepare($sql);
+			$query->bindValue(':page', $page, PDO::PARAM_INT);
+			$query->execute();
+			
+			while ($result = $query->fetch(PDO::FETCH_ASSOC)) {
+				
+			}
+		?>
+		</script>
+		</div>
 		<script>
 			<?php echo 'var query = "' . $_GET['query'] . '"' ?>;
 			if (query == "all") document.getElementById("all").className = "teal active item"; 
