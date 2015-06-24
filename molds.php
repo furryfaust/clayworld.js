@@ -57,7 +57,6 @@
 	</head>
 	<body>
 		<div class="ui five column grid">
-		<script>
 		<?php
 			$page = intval($_GET['page']) * 20;
 			$conn = new PDO('mysql:host=localhost;dbname=clayworld', 'root', 'dbpass');
@@ -67,10 +66,13 @@
 			$query->execute();
 			
 			while ($result = $query->fetch(PDO::FETCH_ASSOC)) {
-				
+				echo '<div class="column">
+      					<div class="ui segment">'
+      				  		. htmlspecialchars($result['title'], ENT_QUOTES, 'UTF-8') . 
+      					'</div>
+    				 </div>';	
 			}
 		?>
-		</script>
 		</div>
 		<script>
 			<?php echo 'var query = "' . $_GET['query'] . '"' ?>;
