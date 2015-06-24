@@ -33,9 +33,7 @@
                 </a>
             </div>
         </div>
-	</head>
-	<body>
-		<div class="ui vertical menu">
+        <div class="ui vertical menu">
 		  <a class="item" id="all">
 		    all molds
 		  </a>
@@ -52,7 +50,8 @@
 		    </div>
 		  </div>
 		</div>
-
+	</head>
+	<body>
 		<script>
 			<?php echo 'var query = "' . $_GET['query'] . '"' ?>;
 			if (query == "all") document.getElementById("all").className = "teal active item"; 
