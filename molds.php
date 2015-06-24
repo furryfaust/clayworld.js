@@ -13,6 +13,11 @@
 			margin-left: 1%;
 		}
 
+		#molds {
+			position: relative;
+			width: 750;
+		}
+
 		</style>
 		<div class="ui secondary pointing menu">
             <a class="item">
@@ -56,7 +61,8 @@
 		</div>
 	</head>
 	<body>
-		<div class="ui five column grid">
+		<div id="molds">
+		<div class="ui four column grid">
 		<?php
 			$page = intval($_GET['page']) * 20;
 			$conn = new PDO('mysql:host=localhost;dbname=clayworld', 'root', 'dbpass');
@@ -73,6 +79,7 @@
     				 </div>';	
 			}
 		?>
+		</div>
 		</div>
 		<script>
 			<?php echo 'var query = "' . $_GET['query'] . '"' ?>;
