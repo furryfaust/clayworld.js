@@ -62,7 +62,7 @@
             <a class="item" href="lab.php">
                 <i class="lab icon"></i> lab
             </a>
-            <a class="item" href="molds.php?query=all">
+            <a class="item" href="molds.php">
                 <i class="circle icon"></i> molds
             </a>
             <div class="right menu">
@@ -119,7 +119,7 @@
 
 		        			}
 		        		}
-		        		update.open("GET", "utils/update.php?title", false);
+		        		update.open("GET", "utils/update.php", false);
 		        		update.send();
 		        	}
 	        	} else {

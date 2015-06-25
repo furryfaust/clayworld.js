@@ -1,10 +1,13 @@
 <html>
 	<head>
 		<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.12.3/semantic.min.css" />
-		<?php session_start();
-		ini_set('display_startup_errors',1);
-		ini_set('display_errors',1);
-		error_reporting(-1);
+		<?php session_start(); 
+			if (!isset($_GET['query'])) {
+				$_GET['query'] = "all";
+			}
+			if (!isset($_GET['page'])) {
+				$_GET['page'] = "0";
+			}
 		?>
 		<style>
 
@@ -16,7 +19,7 @@
 		#molds {
 			position: relative;
 			margin-top: -177;
-			margin-left: 220;
+			margin-left: 240;
 		}
 
 		</style>
@@ -74,9 +77,9 @@
 			
 			while ($result = $query->fetch(PDO::FETCH_ASSOC)) {
 				echo '<div class="column">
-      					<div class="ui segment">'
+      					<div class="ui segment"><div class="ui teal label">'
       				  		. htmlspecialchars($result['title'], ENT_QUOTES, 'UTF-8') . 
-      					'</div>
+      					'</div><br /> by ' . $result['user'] . '</div>
     				 </div>';	
 			}
 		?>
