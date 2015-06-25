@@ -40,7 +40,7 @@ if (strlen($title) > 10 && strlen($title) < 101 && isset($_SESSION['token'])) {
 
 		$conn = new PDO('mysql:host=localhost;dbname=clayworld', 'root', 'dbpass');
 		$sql = "insert into molds(uid, user, title, gid, version, status) values (:uid, :user, :title, :gid,
-					:version, 0)";
+					:version, 0, 0)";
 		$insert = $conn->prepare($sql);
 		$insert->bindParam(':uid', $_SESSION['uid']);
 		$insert->bindParam(':user', $_SESSION['user']);

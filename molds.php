@@ -2,8 +2,11 @@
 	<head>
 		<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.12.3/semantic.min.css" />
 		<?php session_start(); 
+		ini_set('display_startup_errors',1);
+		ini_set('display_errors',1);
+		error_reporting(-1);
 			if (!isset($_GET['query'])) {
-				$_GET['query'] = "all";
+				$_GET['query'] = "verified";
 			}
 			if (!isset($_GET['page'])) {
 				$_GET['page'] = "0";
@@ -47,8 +50,8 @@
             </div>
         </div>
         <div class="ui vertical menu">
-		  <a class="item" id="all">
-		    all molds
+		  <a class="item" id="verified">
+		    verified molds
 		  </a>
 		  <a class="item" id="recent">
 		    recent molds
@@ -70,14 +73,23 @@
 		<?php
 			$page = intval($_GET['page']) * 20;
 			$conn = new PDO('mysql:host=localhost;dbname=clayworld', 'root', 'dbpass');
-			$sql = "select * from molds order by id desc limit 20 offset :page";
+			$sql = "select * from molds where status=2 limit 20 offset :page";
+			/*if ($_GET['recent']) {
+				$sql = "select * from molds order by id desc limit 20 offset :page";
+			}
+			if ($_GET['query'] == "my") {
+				$sql = "select * from molds where user=:user order by id desc limit 20 offset :page"
+			}
+			if ($_GET['query'] == "my") {
+				$query->bindParam(':user', $_SESSION['user']);
+			}*/
 			$query = $conn->prepare($sql);
 			$query->bindValue(':page', $page, PDO::PARAM_INT);
 			$query->execute();
 			
 			while ($result = $query->fetch(PDO::FETCH_ASSOC)) {
 				echo '<div class="column">
-      					<div class="ui segment"><div class="ui teal label">'
+      					<div class="ui segment"><div class="ui compact basic teal button">'
       				  		. htmlspecialchars($result['title'], ENT_QUOTES, 'UTF-8') . 
       					'</div><br /> by ' . $result['user'] . '</div>
     				 </div>';	
@@ -87,12 +99,12 @@
 		</div>
 		<script>
 			<?php echo 'var query = "' . $_GET['query'] . '"' ?>;
-			if (query == "all") document.getElementById("all").className = "teal active item"; 
+			if (query == "verified") document.getElementById("verified").className = "teal active item"; 
 			if (query == "recent") document.getElementById("recent").className = "teal active item"; 
 			if (query == "my") document.getElementById("my").className = "teal active item"; 
 			
-			document.getElementById("all").onclick = function() {
-				window.location = "molds.php?query=all";
+			document.getElementById("verified").onclick = function() {
+				window.location = "molds.php?query=verified";
 			}
 			document.getElementById("recent").onclick = function() {
 				window.location = "molds.php?query=recent";
