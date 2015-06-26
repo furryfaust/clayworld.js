@@ -73,17 +73,20 @@
 		<?php
 			$page = intval($_GET['page']) * 20;
 			$conn = new PDO('mysql:host=localhost;dbname=clayworld', 'root', 'dbpass');
-			$sql = "select * from molds where status=2 limit 20 offset :page";
-			/*if ($_GET['recent']) {
+			$sql = "";
+			if ($_GET['query'] == "verified") {
+				$sql = "select * from molds where status=2 limit 20 offset :page";
+			}
+			if ($_GET['query'] == "recent") {
 				$sql = "select * from molds order by id desc limit 20 offset :page";
 			}
 			if ($_GET['query'] == "my") {
-				$sql = "select * from molds where user=:user order by id desc limit 20 offset :page"
+				$sql = "select * from molds where user=:user order by id desc limit 20 offset :page";
 			}
+			$query = $conn->prepare($sql);
 			if ($_GET['query'] == "my") {
 				$query->bindParam(':user', $_SESSION['user']);
-			}*/
-			$query = $conn->prepare($sql);
+			} 
 			$query->bindValue(':page', $page, PDO::PARAM_INT);
 			$query->execute();
 			
