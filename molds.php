@@ -86,13 +86,14 @@
 			$query = $conn->prepare($sql);
 			if ($_GET['query'] == "my") {
 				$query->bindParam(':user', $_SESSION['user']);
-			} 
+			}
 			$query->bindValue(':page', $page, PDO::PARAM_INT);
 			$query->execute();
 			
 			while ($result = $query->fetch(PDO::FETCH_ASSOC)) {
 				echo '<div class="column">
-      					<div class="ui segment"><div class="ui compact basic teal button">'
+      					<div class="ui segment"><div class="ui compact basic teal button" id='
+      					. $result['id'] . '>'
       				  		. htmlspecialchars($result['title'], ENT_QUOTES, 'UTF-8') . 
       					'</div><br /> by ' . $result['user'] . '</div>
     				 </div>';	
@@ -124,6 +125,13 @@
             		window.location = "utils/auth.php?link=" + encodeURIComponent(window.location);
             	}
         	}
+
+			var buttons = document.querySelectorAll(".ui.basic.teal.button");      
+			for (var i = 0; i != buttons.length; i++) {
+				buttons[i].addEventListener("click", function() {
+					window.location = "lab.php?id=" + this.id;
+				});
+			}  	
 		</script>
 	</body>
 </html>
