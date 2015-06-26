@@ -102,6 +102,7 @@
 		</div>
 		</div>
 		<script>
+			var loggedIn = <?php if (isset($_SESSION['token']) { echo 'true'; } else { echo 'false'; }?>;
 			<?php echo 'var query = "' . $_GET['query'] . '"' ?>;
 			if (query == "verified") document.getElementById("verified").className = "teal active item"; 
 			if (query == "recent") document.getElementById("recent").className = "teal active item"; 
@@ -129,7 +130,11 @@
 			var buttons = document.querySelectorAll(".ui.basic.teal.button");      
 			for (var i = 0; i != buttons.length; i++) {
 				buttons[i].addEventListener("click", function() {
-					window.location = "lab.php?id=" + this.id;
+					if (loggedIn) {
+						window.location = "lab.php?id=" + this.id;
+					} else {
+						alert("You must be logged in to view other molds!");
+					}
 				});
 			}  	
 		</script>
