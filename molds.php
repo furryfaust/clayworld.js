@@ -102,7 +102,7 @@
 		</div>
 		</div>
 		<script>
-			var loggedIn = <?php if (isset($_SESSION['token']) { echo 'true'; } else { echo 'false'; }?>;
+			var loggedIn = <?php if (isset($_SESSION['token'])) { echo 'true'; } else { echo 'false'; } ?>;
 			<?php echo 'var query = "' . $_GET['query'] . '"' ?>;
 			if (query == "verified") document.getElementById("verified").className = "teal active item"; 
 			if (query == "recent") document.getElementById("recent").className = "teal active item"; 
