@@ -86,11 +86,35 @@
             </div>
             <div class="column">
                 <div id="editor"><?php 
+                    if (!isset($_GET['id']) || !isset($_SESSION['token'])) {
                         if (isset($_SESSION['code'])) {
                             echo htmlspecialchars($_SESSION['code']);
                         } else {
                             echo 'function onInit(world) {} &#13;&#10;function onUpdate(world) {}';
                         }
+                    } else if (isset($_SESSION['token'])) {
+
+                        $conn = new PDO('mysql:host=localhost;dbname=clayworld', 'root', 'dbpass');
+                        $sql = "select * from molds where id=:id";
+                        $query = $conn->prepare($sql);
+                        $query->bindParam(':id', $_GET['id']);
+                        $query->execute();
+
+                        if ($result = $query->fetch(PDO::FETCH_ASSOC)) {
+                            $id = $result['gid'];
+                            $version = $result['version'];
+
+                            $ch = curl_init("https://api.github.com/gists/" . $id . "/" . $version);
+                            curl_setopt($ch, CURLOPT_POST, 0);
+                            curl_setopt($ch, CURLOPT_USERAGENT, "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/29.0.1521.3 Safari/537.36");
+                            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Authorization: token " . $_SESSION['token']));
+                            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                            $response = curl_exec($ch);
+                            curl_close($ch);
+
+                            echo json_decode($response, true)['files']['mold.js']['content'];
+                        }
+                    }
                     ?></div>
                 <div class="buttons">
                     <button class="ui primary button" id="control"><i class="play icon"></i>run</button>
