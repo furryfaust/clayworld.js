@@ -23,6 +23,7 @@
 		}
 	</style>
 	<script>
+		<?php echo 'var id = ' . $_GET['id'] . ";" ?>
 		var isLoggedIn = <?php
 		session_start();
 		if (isset($_SESSION['token'])) {
@@ -132,7 +133,9 @@
 
 		        			}
 		        		}
-		        		update.open("GET", "utils/update.php", false);
+		        		update.open("GET", "utils/update.php?title=" + document.getElementById("titleinput").value
+		        			+ "&code=" + encodeURIComponent(editor.getSession().getValue()), true + "&id="
+		        			+ id);
 		        		update.send();
 		        	}
 	        	} else {
