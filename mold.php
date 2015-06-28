@@ -30,7 +30,6 @@
 		} else {
 			echo 'false'; 
 		}?>;
-		console.log(isLoggedIn);
 		var isNew = <?php if (isset($_GET['id'])) {
 			echo 'false';
 		} else {
@@ -84,11 +83,19 @@
        		<input id="titleinput" type="text" placeholder="title" size="60"/>
         </div>
 		<div id="editor"><?php 
-            if (isset($_SESSION['code'])) {
-                echo htmlspecialchars(urldecode($_SESSION['code']));
-            } else {
-                echo 'function onInit(world) {} &#13;&#10;function onUpdate(world) {}';
-            }
+			if (!isset($_GET['id'])) {
+	            if (isset($_SESSION['code']['0'])) {
+	                echo htmlspecialchars($_SESSION['code']['0']);
+	            } else {
+	                echo 'function onInit(world) {} &#13;&#10;function onUpdate(world) {}';
+	            }
+        	} else {
+        		if (isset($_SESSION['code'][$_GET['id']])) {
+        			echo htmlspecialchars($_SESSION['code'][$_GET['id']]);
+        		} else {
+        			echo 'function onInit(world) {} &#13;&#10;function onUpdate(world) {}';
+        		}
+        	}
         ?></div>
 		<button class="ui primary button" id="action"> share </button>
 		<script src="js/ace.min.js" type="text/javascript" charset="utf-8"></script>

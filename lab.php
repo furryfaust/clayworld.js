@@ -87,38 +87,51 @@
             <div class="column">
                 <div id="editor"><?php 
                     if (!isset($_GET['id']) || !isset($_SESSION['token'])) {
-                        if (isset($_SESSION['code'])) {
-                            echo htmlspecialchars($_SESSION['code']);
+                        if (isset($_SESSION['code']['0'])) {
+                            echo htmlspecialchars($_SESSION['code']['0']);
                         } else {
                             echo 'function onInit(world) {} &#13;&#10;function onUpdate(world) {}';
                         }
+                        unset($_SESSION['owner']);
                     } else if (isset($_SESSION['token'])) {
+                        if (!isset($_SESSION['code'][$_GET['id']])) {
+                            $conn = new PDO('mysql:host=localhost;dbname=clayworld', 'root', 'dbpass');
+                            $sql = "select * from molds where id=:id";
+                            $query = $conn->prepare($sql);
+                            $query->bindParam(':id', $_GET['id']);
+                            $query->execute();
 
-                        $conn = new PDO('mysql:host=localhost;dbname=clayworld', 'root', 'dbpass');
-                        $sql = "select * from molds where id=:id";
-                        $query = $conn->prepare($sql);
-                        $query->bindParam(':id', $_GET['id']);
-                        $query->execute();
+                            if ($result = $query->fetch(PDO::FETCH_ASSOC)) {
+                                $id = $result['gid'];
+                                $version = $result['version'];
 
-                        if ($result = $query->fetch(PDO::FETCH_ASSOC)) {
-                            $id = $result['gid'];
-                            $version = $result['version'];
+                                $ch = curl_init("https://api.github.com/gists/" . $id . "/" . $version);
+                                curl_setopt($ch, CURLOPT_POST, 0);
+                                curl_setopt($ch, CURLOPT_USERAGENT, "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/29.0.1521.3 Safari/537.36");
+                                curl_setopt($ch, CURLOPT_HTTPHEADER, array("Authorization: token " . $_SESSION['token']));
+                                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                                $response = curl_exec($ch);
+                                curl_close($ch);
 
-                            $ch = curl_init("https://api.github.com/gists/" . $id . "/" . $version);
-                            curl_setopt($ch, CURLOPT_POST, 0);
-                            curl_setopt($ch, CURLOPT_USERAGENT, "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/29.0.1521.3 Safari/537.36");
-                            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Authorization: token " . $_SESSION['token']));
-                            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                            $response = curl_exec($ch);
-                            curl_close($ch);
+                                $json = json_decode($response, true);
 
-                            echo json_decode($response, true)['files']['mold.js']['content'];
+                                $_SESSION['owner'] = $json['owner']['login'];
+                                $code = $json['files']['mold.js']['content'];
+
+                                $_SESSION['code'][$_GET['id']] = $code;
+                                echo htmlspecialchars($code);
+                            }
+                        } else {
+                            echo htmlspecialchars($_SESSION['code'][$_GET['id']]);
                         }
                     }
                     ?></div>
                 <div class="buttons">
                     <button class="ui primary button" id="control"><i class="play icon"></i>run</button>
-                    <button class="ui primary button" id="share"><i class="github icon"></i>share </button>
+                    <button class="ui primary button" id="social"><i class="github icon"></i><?php
+                     if (isset($_SESSION['user']) && isset($_SESSION['owner']) &&
+                             $_SESSION['user'] == $_SESSION['owner']) { echo 'update'; } else { echo 'share'; } 
+                    ?></button>
                     <button class="ui primary button" id="raw"> raw </button>
                 </div>
                 <h1>clayworld.js by furryfaust</h1>
@@ -128,7 +141,6 @@
             </div>
         </div>
     </body>
-    <script src="js/script.js"> </script>
     <script src="js/ace.min.js" type="text/javascript" charset="utf-8"></script>
     <script>
         var editor = ace.edit("editor");
@@ -137,7 +149,8 @@
         editor.getSession().setMode("ace/mode/javascript");
         editor.on("blur", function() {
             var save = new XMLHttpRequest();
-            save.open("post", "utils/track.php?code=" + encodeURIComponent(editor.getSession().getValue()), false);
+            save.open("post", window.location.href.replace("lab", "utils/track") + (window.location.href.includes("?") ? "&" : "?") + "code=" + encodeURIComponent(editor.getSession().getValue(), false));
+            console.log(window.location.href.replace("lab", "utils/track") + (window.location.href.includes("?") ? "&" : "?") + "code=" + encodeURIComponent(editor.getSession().getValue(), false));
             save.send();
         });
         var session = document.getElementById("session");
@@ -149,4 +162,5 @@
             }
          }
     </script>
+    <script src="js/script.js"> </script>
 </html>

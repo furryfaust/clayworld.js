@@ -30,8 +30,8 @@ control.onclick = function() {
 	}
 }
 
-document.getElementById("share").onclick = function() {
-	window.location = "mold.php";
+document.getElementById("social").onclick = function() {
+	window.location = window.location.href.replace("lab", "mold");
 }
 
 document.getElementById("raw").onclick = function() {
