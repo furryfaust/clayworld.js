@@ -30,11 +30,11 @@
 		} else {
 			echo 'false'; 
 		}?>;
-		var isNew = <?php if (isset($_GET['id'])) {
+		var isNew = <?php if (isset($_GET['id']) && $_SESSION['user'] == $_SESSION['owner'][$_GET['id']]) {
 			echo 'false';
 		} else {
 			echo 'true'; 
-		}?>;
+		} ?>;
 	</script>
 	<?php
 	if (isset($_GET['id'])) {
@@ -97,7 +97,13 @@
         		}
         	}
         ?></div>
-		<button class="ui primary button" id="action"> share </button>
+		<button class="ui primary button" id="action"><?php
+			if (isset($_GET['id']) && $_SESSION['user'] == $_SESSION['owner'][$_GET['id']]) {
+				echo 'update';
+			} else {
+				echo 'share';
+			}
+		 ?></button>
 		<script src="js/ace.min.js" type="text/javascript" charset="utf-8"></script>
     	<script>
 	        var editor = ace.edit("editor");

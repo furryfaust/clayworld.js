@@ -115,7 +115,7 @@
 
                                 $json = json_decode($response, true);
 
-                                $_SESSION['owner'] = $json['owner']['login'];
+                                $_SESSION['owner'][$_GET['id']] = $json['owner']['login'];
                                 $code = $json['files']['mold.js']['content'];
 
                                 $_SESSION['code'][$_GET['id']] = $code;
@@ -129,8 +129,8 @@
                 <div class="buttons">
                     <button class="ui primary button" id="control"><i class="play icon"></i>run</button>
                     <button class="ui primary button" id="social"><i class="github icon"></i><?php
-                     if (isset($_SESSION['user']) && isset($_SESSION['owner']) &&
-                             $_SESSION['user'] == $_SESSION['owner']) { echo 'update'; } else { echo 'share'; } 
+                     if (isset($_SESSION['user']) && isset($_SESSION['owner'][$_GET['id']]) &&
+                             $_SESSION['user'] == $_SESSION['owner'][$_GET['id']]) { echo 'update'; } else { echo 'share'; } 
                     ?></button>
                     <button class="ui primary button" id="raw"> raw </button>
                 </div>
