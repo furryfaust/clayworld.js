@@ -48,6 +48,15 @@ if (strlen($title) > 10 && strlen($title) < 101 && isset($_SESSION['token'])) {
 		$insert->bindParam(':gid', $id);
 		$insert->bindParam(':version', $version);
 		$insert->execute();
+
+		$sql = "select * from molds where gid=:gid";
+		$query = $conn->prepare($sql);
+		$query->bindParam(':gid', $id);
+		$query->execute();
+
+		if ($result = $query->fetch(PDO::FETCH_ASSOC)) {
+			echo $result['id'];
+		}
 	}
 	
 }

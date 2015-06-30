@@ -122,7 +122,9 @@
 		        		var share = new XMLHttpRequest();
 		        		share.onreadystatechange = function() {
 		        			if (share.readyState == 4) {
-		        				
+		        				if (state.responseText != "") {
+		        					window.location = "lab.php?id=" + state.responseText;
+		        				}
 		        			}
 		        		}
 		        		share.open("GET", "utils/share.php?title=" + document.getElementById("titleinput").value
