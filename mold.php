@@ -102,11 +102,6 @@
         	}
         ?></div>
 		<button class="ui primary button" id="action"><?php
-			echo '<script>
-			console.log("ID: ' . $_GET['id'] . '");
-			console.log("User: ' . $_SESSION['user'] . '");
-			console.log("Owner: ' . $_SESSION['owner'][$_GET['id']] . '");
-			</script>';
 			if (isset($_GET['id']) && $_SESSION['user'] == $_SESSION['owner'][$_GET['id']]) {
 				echo 'update';
 			} else {
@@ -127,7 +122,7 @@
 		        		var share = new XMLHttpRequest();
 		        		share.onreadystatechange = function() {
 		        			if (share.readyState == 4) {
-		        				if (state.responseText != "") {
+		        				if (share.responseText != "") {
 		        					window.location = "lab.php?id=" + state.responseText;
 		        				}
 		        			}
@@ -139,13 +134,15 @@
 		        		var update = new XMLHttpRequest();
 
 		        		update.onreadystatechange = function() {
-		        			if (share.readyState == 4) {
-
+		        			if (update.readyState == 4) {
+		        				if (update.responseText != "") {
+		        					window.location = "lab.php?id=" + update.responseText;
+		        				}
 		        			}
 		        		}
 		        		update.open("GET", "utils/update.php?title=" + document.getElementById("titleinput").value
-		        			+ "&code=" + encodeURIComponent(editor.getSession().getValue()), true + "&id="
-		        			+ id);
+		        			+ "&code=" + encodeURIComponent(editor.getSession().getValue()) + "&id="
+		        			+ id, true);
 		        		update.send();
 		        	}
 	        	} else {
