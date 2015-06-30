@@ -36,6 +36,9 @@
             <a class="item" href="molds.php">
                 <i class="circle icon"></i> molds
             </a>
+            <a class="item" href="documentation.php">
+          	  <i class="file image outline icon"></i> documentation
+            </a>
             <div class="right menu">
                 <a class="item" id="session">
                     <i class="user icon"></i> 
