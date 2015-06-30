@@ -95,7 +95,6 @@
                         } else {
                             echo 'function onInit(world) {} &#13;&#10;function onUpdate(world) {}';
                         }
-                        unset($_SESSION['owner']);
                     } else if (isset($_SESSION['token'])) {
                         if (!isset($_SESSION['code'][$_GET['id']])) {
                             $conn = new PDO('mysql:host=localhost;dbname=clayworld', 'root', 'dbpass');

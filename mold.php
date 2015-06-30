@@ -23,7 +23,7 @@
 		}
 	</style>
 	<script>
-		<?php echo 'var id = ' . $_GET['id'] . ";" ?>
+		<?php if (isset($_GET['id']) { echo 'var id = ' . $_GET['id'] . ";" } ?>
 		var isLoggedIn = <?php
 		session_start();
 		if (isset($_SESSION['token'])) {
@@ -50,7 +50,7 @@
 		if ($result = $query->fetch(PDO::FETCH_ASSOC)) {
 			$_SESSION['gid'] = $result['gid'];
 		} else {
-			echo 'alert("You are not authorized to be here");';
+			echo '<script>alert("You are not authorized to be here");</script>';
 			header("Location: http://furryfaust.com/clayworld/lab.php");
 			die();
 		}
@@ -102,6 +102,11 @@
         	}
         ?></div>
 		<button class="ui primary button" id="action"><?php
+			echo '<script>
+			console.log("ID: ' . $_GET['id'] . '");
+			console.log("User: ' . $_SESSION['user'] . '");
+			console.log("Owner: ' . $_SESSION['owner'][$_GET['id']] . '");
+			</script>';
 			if (isset($_GET['id']) && $_SESSION['user'] == $_SESSION['owner'][$_GET['id']]) {
 				echo 'update';
 			} else {

@@ -33,5 +33,12 @@ if (strlen($title) > 10 && strlen($title) < 101 && isset($_SESSION['token'])) {
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 		$response = curl_exec($ch);
 		curl_close($ch);
+
+		if (isset(json_decode($response, true)['history'])) {
+			$version = json_decode($response, true)['history'][0]['version'];
+
+			$sql = "update molds set status=0 and version=:version where gid=:gid";
+			$update = $conn->prepare($sql);
+		}
 	}
 }
