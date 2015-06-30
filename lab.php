@@ -152,7 +152,6 @@
         editor.on("blur", function() {
             var save = new XMLHttpRequest();
             save.open("post", window.location.href.replace("lab", "utils/track") + (window.location.href.includes("?") ? "&" : "?") + "code=" + encodeURIComponent(editor.getSession().getValue(), false));
-            console.log(window.location.href.replace("lab", "utils/track") + (window.location.href.includes("?") ? "&" : "?") + "code=" + encodeURIComponent(editor.getSession().getValue(), false));
             save.send();
         });
         var session = document.getElementById("session");

@@ -23,10 +23,8 @@ if (strlen($title) > 10 && strlen($title) < 101 && isset($_SESSION['token'])) {
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     $response = curl_exec($ch);
     curl_close($ch);
-    echo 'Hello';
 
     if (isset(json_decode($response, true)['id'])) {
-    	echo 'blah';
 	    $id = json_decode($response, true)['id'];
 	    $url = "https://api.github.com/gists/" . $id . "/commits";
 	    $ch = curl_init($url);
@@ -49,16 +47,5 @@ if (strlen($title) > 10 && strlen($title) < 101 && isset($_SESSION['token'])) {
 		$insert->bindParam(':gid', $id);
 		$insert->bindParam(':version', $version);
 		$insert->execute();
-
-		$sql = "select * from molds where gid=:gid";
-		$query = $conn->prepare($sql);
-		$query->bindParam(':gid', $id);
-		$query->execute();
-
-		echo 'sss';
-
-		if ($result = $query->fetch(PDO::FETCH_ASSOC)) {
-			echo $result['id'];
-		}
 	}	
 }
