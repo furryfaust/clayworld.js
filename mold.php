@@ -23,7 +23,7 @@
 		}
 	</style>
 	<script>
-		<?php if (isset($_GET['id']) { echo 'var id = ' . $_GET['id'] . ";" } ?>
+		<?php if (isset($_GET['id'])) { echo 'var id = ' . $_GET['id'] . ";"; } ?>
 		var isLoggedIn = <?php
 		session_start();
 		if (isset($_SESSION['token'])) {
