@@ -123,7 +123,8 @@
 		        		share.onreadystatechange = function() {
 		        			if (share.readyState == 4) {
 		        				if (share.responseText != "") {
-		        					window.location = "lab.php?id=" + state.responseText;
+		        					alert(share.responseText);
+		        					window.location = "lab.php?id=" + id;
 		        				}
 		        			}
 		        		}
@@ -136,7 +137,7 @@
 		        		update.onreadystatechange = function() {
 		        			if (update.readyState == 4) {
 		        				if (update.responseText != "") {
-		        					window.location = "lab.php?id=" + update.responseText;
+		        					window.location = "lab.php?id=" + id;
 		        				}
 		        			}
 		        		}

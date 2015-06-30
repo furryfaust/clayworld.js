@@ -23,8 +23,10 @@ if (strlen($title) > 10 && strlen($title) < 101 && isset($_SESSION['token'])) {
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     $response = curl_exec($ch);
     curl_close($ch);
+    echo 'Hello';
 
     if (isset(json_decode($response, true)['id'])) {
+    	echo 'blah';
 	    $id = json_decode($response, true)['id'];
 	    $url = "https://api.github.com/gists/" . $id . "/commits";
 	    $ch = curl_init($url);
@@ -39,7 +41,7 @@ if (strlen($title) > 10 && strlen($title) < 101 && isset($_SESSION['token'])) {
 
 		$conn = new PDO('mysql:host=localhost;dbname=clayworld', 'root', 'dbpass');
 		$sql = "insert into molds(uid, user, title, gid, version, status) values (:uid, :user, :title, :gid,
-					:version, 0, 0)";
+					:version, 0)";
 		$insert = $conn->prepare($sql);
 		$insert->bindParam(':uid', $_SESSION['uid']);
 		$insert->bindParam(':user', $_SESSION['user']);
@@ -53,12 +55,10 @@ if (strlen($title) > 10 && strlen($title) < 101 && isset($_SESSION['token'])) {
 		$query->bindParam(':gid', $id);
 		$query->execute();
 
+		echo 'sss';
+
 		if ($result = $query->fetch(PDO::FETCH_ASSOC)) {
 			echo $result['id'];
 		}
-	}
-	
+	}	
 }
-
-header("Location: http://furryfaust.com/clayworld/lab.php");
-die(); 

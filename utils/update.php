@@ -37,7 +37,7 @@ if (strlen($title) > 10 && strlen($title) < 101 && isset($_SESSION['token'])) {
 		if (isset(json_decode($response, true)['history'])) {
 			$version = json_decode($response, true)['history'][0]['version'];
 
-			$sql = "update molds set title=:title and status=0 and version=:version where gid=:gid";
+			$sql = "update molds set title=:title, status=0, version=:version where gid=:gid";
 			$update = $conn->prepare($sql);
 			$update->bindParam(':title', $title);
 			$update->bindParam(':version', $version);
