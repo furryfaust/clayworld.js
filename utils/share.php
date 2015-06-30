@@ -1,9 +1,8 @@
 <?php
-
 session_start();
 
 $title = $_GET['title'];
-$code = urldecode($_GET['code']);
+$code = $_GET['code'];
 
 if (strlen($title) > 10 && strlen($title) < 101 && isset($_SESSION['token'])) {
 	$data = '{

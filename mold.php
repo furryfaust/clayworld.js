@@ -84,7 +84,7 @@
 	</head>
 	<body>
 		<div class="ui input" id="title">
-       		<input id="titleinput" type="text" placeholder="title" size="60"/>
+       		<input id="titleinput" type="text" placeholder="title" size="60" maxlength="100"/>
         </div>
 		<div id="editor"><?php 
 			if (!isset($_GET['id'])) {
