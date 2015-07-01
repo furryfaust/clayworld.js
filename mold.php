@@ -123,8 +123,7 @@
 		        		share.onreadystatechange = function() {
 		        			if (share.readyState == 4) {
 		        				if (share.responseText != "") {
-		        					alert(share.responseText);
-		        					window.location = "lab.php?id=" + id;
+		        					window.location = "lab.php?id=" + share.responseText;
 		        				}
 		        			}
 		        		}

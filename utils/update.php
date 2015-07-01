@@ -43,8 +43,6 @@ if (strlen($title) > 10 && strlen($title) < 101 && isset($_SESSION['token'])) {
 			$update->bindParam(':version', $version);
 			$update->bindParam(':gid', $gid);
 			$update->execute();
-
-			echo $id;
 		}
 	}
 }
