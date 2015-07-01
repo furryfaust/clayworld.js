@@ -27,7 +27,7 @@
 
 		</style>
 		<div class="ui secondary pointing menu">
-            <a class="item">
+            <a class="item" href="index.php">
                 <i class="home icon"></i> home
             </a>
             <a class="item" href="lab.php">
